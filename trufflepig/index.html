@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0a0e15;
+        color: #e8eaed;
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-weight: 300;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ---------- Persistent ambient decoratives ---------- */
+      .amb-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(122,130,145,0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(122,130,145,0.06) 1px, transparent 1px);
+        background-size: 80px 80px;
+        pointer-events: none;
+        z-index: 60;
+      }
+      .amb-vignette {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse at 50% 55%, rgba(10,14,21,0) 55%, rgba(10,14,21,0.85) 100%);
+        pointer-events: none;
+        z-index: 61;
+      }
+      .amb-glow {
+        position: absolute;
+        width: 1600px;
+        height: 1600px;
+        left: -400px;
+        top: -400px;
+        background: radial-gradient(circle, rgba(215,154,74,0.14) 0%, rgba(215,154,74,0) 60%);
+        pointer-events: none;
+        z-index: 58;
+        filter: blur(20px);
+      }
+      .amb-glow.right {
+        left: auto;
+        right: -500px;
+        top: auto;
+        bottom: -500px;
+        background: radial-gradient(circle, rgba(74,143,184,0.10) 0%, rgba(74,143,184,0) 60%);
+      }
+      .brand-stamp {
+        position: absolute;
+        bottom: 48px;
+        left: 64px;
+        font-size: 14px;
+        letter-spacing: 0.28em;
+        color: #7a8291;
+        z-index: 62;
+        font-weight: 400;
+      }
+      .brand-stamp .dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: #d79a4a;
+        border-radius: 50%;
+        margin-right: 14px;
+        transform: translateY(1px);
+        box-shadow: 0 0 12px rgba(215,154,74,0.8);
+      }
+      .frame-meta {
+        position: absolute;
+        top: 48px;
+        right: 64px;
+        font-size: 13px;
+        letter-spacing: 0.3em;
+        color: #7a8291;
+        z-index: 62;
+        text-align: right;
+        line-height: 1.6;
+      }
+      .frame-meta .meta-line { display: block; }
+      .frame-meta .meta-val { color: #d79a4a; }
+
+      /* ---------- Scenes ---------- */
+      .scene {
+        position: absolute;
+        top: 0; left: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        z-index: 10;
+      }
+      #s1 { z-index: 11; }
+      #s2, #s3, #s4, #s5, #s6, #s7 { opacity: 0; }
+
+      .scene-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        padding: 140px 160px;
+        box-sizing: border-box;
+      }
+
+      /* ---------- Shared type scales ---------- */
+      .eyebrow {
+        font-size: 18px;
+        letter-spacing: 0.42em;
+        color: #d79a4a;
+        font-weight: 400;
+        text-transform: uppercase;
+        margin-bottom: 36px;
+      }
+      .eyebrow .bar {
+        display: inline-block;
+        width: 48px;
+        height: 1px;
+        background: #d79a4a;
+        vertical-align: middle;
+        margin-right: 20px;
+        transform: translateY(-3px);
+      }
+      .display {
+        font-family: "Archivo", sans-serif;
+        font-weight: 900;
+        letter-spacing: -0.025em;
+        line-height: 0.98;
+        color: #e8eaed;
+      }
+      .body-text {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-weight: 300;
+        color: #c4c9d0;
+        letter-spacing: 0.005em;
+      }
+
+      /* ---------- Scene 1: Brand opener ---------- */
+      #s1 .scene-content { justify-content: center; align-items: center; text-align: center; padding: 0; }
+      .s1-marker {
+        font-size: 14px;
+        letter-spacing: 0.5em;
+        color: #7a8291;
+        margin-bottom: 48px;
+      }
+      .s1-marker .tick { color: #d79a4a; }
+      .s1-wordmark {
+        font-family: "Archivo", sans-serif;
+        font-weight: 900;
+        font-size: 240px;
+        letter-spacing: -0.045em;
+        line-height: 1;
+        color: #e8eaed;
+      }
+      .s1-wordmark .glyph {
+        color: #d79a4a;
+      }
+      .s1-sub {
+        margin-top: 34px;
+        font-size: 20px;
+        letter-spacing: 0.55em;
+        color: #7a8291;
+        font-weight: 400;
+      }
+      .s1-rule {
+        width: 0;
+        height: 1px;
+        background: #d79a4a;
+        margin: 54px auto 30px;
+      }
+      .s1-tagline {
+        font-family: "Archivo", sans-serif;
+        font-weight: 900;
+        font-size: 44px;
+        letter-spacing: -0.01em;
+        color: #e8eaed;
+      }
+      .s1-tagline .amber { color: #d79a4a; }
+
+      /* ---------- Scene 2: Positioning ---------- */
+      #s2 .scene-content { gap: 44px; max-width: 1600px; }
+      .s2-head {
+        font-size: 118px;
+        max-width: 1500px;
+      }
+      .s2-head .accent { color: #d79a4a; }
+      .s2-body {
+        font-size: 26px;
+        line-height: 1.55;
+        max-width: 1100px;
+        color: #c4c9d0;
+      }
+      .s2-chips {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+      }
+      .chip {
+        padding: 16px 26px;
+        border: 1px solid rgba(215,154,74,0.4);
+        background: rgba(215,154,74,0.06);
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        font-size: 17px;
+        letter-spacing: 0.22em;
+        color: #e8eaed;
+      }
+      .chip .chip-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background: #d79a4a;
+        border-radius: 50%;
+        margin-right: 14px;
+        transform: translateY(-2px);
+      }
+
+      /* ---------- Scene 3: Services ---------- */
+      #s3 .scene-content { gap: 56px; }
+      .s3-head-row {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+      .s3-head {
+        font-size: 108px;
+        max-width: 1400px;
+      }
+      .s3-count {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        font-size: 16px;
+        letter-spacing: 0.4em;
+        color: #7a8291;
+        text-align: right;
+        line-height: 1.6;
+        padding-bottom: 18px;
+      }
+      .s3-count .amber { color: #d79a4a; font-size: 22px; display: block; margin-bottom: 6px; }
+      .s3-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .s3-card {
+        position: relative;
+        padding: 36px 32px;
+        background: #1a2130;
+        border: 1px solid rgba(122,130,145,0.18);
+        min-height: 190px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .s3-card .idx {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+        letter-spacing: 0.32em;
+        color: #d79a4a;
+        font-weight: 400;
+      }
+      .s3-card .name {
+        font-family: "Archivo", sans-serif;
+        font-weight: 900;
+        font-size: 36px;
+        letter-spacing: -0.02em;
+        color: #e8eaed;
+        line-height: 1.02;
+        margin-top: 18px;
+      }
+      .s3-card .tag {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 15px;
+        letter-spacing: 0.06em;
+        color: #7a8291;
+        font-weight: 300;
+        line-height: 1.4;
+        margin-top: 16px;
+      }
+      .s3-card::before {
+        content: "";
+        position: absolute;
+        left: 0; top: 0;
+        width: 2px;
+        height: 36px;
+        background: #d79a4a;
+      }
+
+      /* ---------- Scene 4: Memory forensics ---------- */
+      #s4 .scene-content {
+        flex-direction: row;
+        align-items: center;
+        gap: 100px;
+        padding: 140px 160px;
+      }
+      .s4-big {
+        font-family: "Archivo", sans-serif;
+        font-weight: 900;
+        font-size: 380px;
+        letter-spacing: -0.06em;
+        line-height: 0.86;
+        color: #d79a4a;
+        flex-shrink: 0;
+      }
+      .s4-big .unit {
+        display: block;
+        font-size: 28px;
+        letter-spacing: 0.32em;
+        color: #7a8291;
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        margin-top: 18px;
+      }
+      .s4-right { flex: 1; display: flex; flex-direction: column; gap: 30px; }
+      .s4-head {
+        font-size: 96px;
+        max-width: 900px;
+      }
+      .s4-body {
+        font-size: 24px;
+        line-height: 1.6;
+        color: #c4c9d0;
+        max-width: 820px;
+      }
+      .s4-body .hi { color: #e8eaed; font-weight: 400; }
+      .s4-rule {
+        width: 80px;
+        height: 2px;
+        background: #d79a4a;
+      }
+
+      /* ---------- Scene 5: Trust signals ---------- */
+      #s5 .scene-content { gap: 60px; }
+      .s5-head { font-size: 96px; max-width: 1400px; }
+      .s5-head .amber { color: #d79a4a; }
+      .s5-rows {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        max-width: 1500px;
+      }
+      .s5-row {
+        display: grid;
+        grid-template-columns: 90px 1fr;
+        gap: 28px;
+        padding: 24px 0;
+        border-top: 1px solid rgba(122,130,145,0.22);
+        align-items: center;
+      }
+      .s5-row .num {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 22px;
+        font-weight: 400;
+        color: #d79a4a;
+        letter-spacing: 0.15em;
+      }
+      .s5-row .txt {
+        font-family: "Archivo", sans-serif;
+        font-weight: 900;
+        font-size: 40px;
+        letter-spacing: -0.015em;
+        color: #e8eaed;
+        line-height: 1.1;
+      }
+      .s5-row .sub {
+        display: block;
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 300;
+        font-size: 17px;
+        letter-spacing: 0.05em;
+        color: #7a8291;
+        margin-top: 8px;
+        text-transform: none;
+      }
+
+      /* ---------- Scene 6: Gerichtsverwertbar ---------- */
+      #s6 .scene-content { gap: 48px; justify-content: center; }
+      .s6-head {
+        font-size: 132px;
+        max-width: 1500px;
+      }
+      .s6-head .amber { color: #d79a4a; }
+      .s6-body {
+        font-size: 28px;
+        line-height: 1.55;
+        color: #c4c9d0;
+        max-width: 1100px;
+      }
+      .s6-body .hi { color: #e8eaed; font-weight: 400; }
+      .s6-meta {
+        margin-top: 28px;
+        display: flex;
+        gap: 48px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 15px;
+        letter-spacing: 0.25em;
+        color: #7a8291;
+      }
+      .s6-meta .lbl { color: #d79a4a; margin-right: 14px; }
+
+      /* ---------- Scene 7: CTA ---------- */
+      #s7 .scene-content { gap: 40px; }
+      .s7-eyebrow {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        font-size: 17px;
+        letter-spacing: 0.5em;
+        color: #d79a4a;
+      }
+      .s7-head {
+        font-size: 128px;
+        max-width: 1500px;
+      }
+      .s7-contact {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        margin-top: 28px;
+        max-width: 1400px;
+      }
+      .s7-cell {
+        padding: 36px 40px;
+        background: #1a2130;
+        border: 1px solid rgba(122,130,145,0.22);
+        position: relative;
+      }
+      .s7-cell::before {
+        content: "";
+        position: absolute;
+        left: 0; top: 0;
+        width: 2px;
+        height: 100%;
+        background: #d79a4a;
+      }
+      .s7-cell .lbl {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        font-size: 15px;
+        letter-spacing: 0.32em;
+        color: #7a8291;
+        margin-bottom: 14px;
+      }
+      .s7-cell .val {
+        font-family: "Archivo", sans-serif;
+        font-weight: 900;
+        font-size: 44px;
+        letter-spacing: -0.01em;
+        color: #e8eaed;
+      }
+      .s7-close {
+        margin-top: 36px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 22px;
+        letter-spacing: 0.05em;
+        color: #c4c9d0;
+        font-weight: 300;
+        max-width: 1200px;
+      }
+      .s7-close .amber { color: #d79a4a; font-weight: 400; }
+
+      /* Final fade overlay */
+      .final-veil {
+        position: absolute;
+        inset: 0;
+        background: #0a0e15;
+        opacity: 0;
+        z-index: 80;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="55"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- Persistent ambient decoratives (behind scenes but visible via transparent scene bgs) -->
+      <div class="amb-glow" id="glow-a"></div>
+      <div class="amb-glow right" id="glow-b"></div>
+      <div class="amb-grid"></div>
+      <div class="amb-vignette"></div>
+
+      <!-- Scene 1: Brand opener -->
+      <div id="s1" class="scene">
+        <div class="scene-content">
+          <div class="s1-marker" id="s1-marker">
+            <span class="tick">●</span>&nbsp;&nbsp;DIGITALE&nbsp;&nbsp;FORENSIK&nbsp;&nbsp;//&nbsp;&nbsp;SEIT&nbsp;&nbsp;2017
+          </div>
+          <div class="s1-wordmark" id="s1-wordmark">
+            TRUFFLE<span class="glyph">P</span>IG
+          </div>
+          <div class="s1-sub" id="s1-sub">IT&nbsp;·&nbsp;FORENSICS&nbsp;·&nbsp;PFAFFENHOFEN A. D. ILM</div>
+          <div class="s1-rule" id="s1-rule"></div>
+          <div class="s1-tagline" id="s1-tagline">
+            Wir finden <span class="amber">Spuren</span>, die andere nicht mehr sehen.
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 2: Positioning -->
+      <div id="s2" class="scene">
+        <div class="scene-content">
+          <div class="eyebrow" id="s2-eyebrow"><span class="bar"></span>UNSER ANSPRUCH</div>
+          <h1 class="display s2-head" id="s2-head">
+            Spezialist für <span class="accent">IT-Sicherheit</span><br/>und IT-Forensik.
+          </h1>
+          <p class="body-text s2-body" id="s2-body">
+            Ein Eliteteam aus staatlicher Ermittlung, Spitzenforschung und Strategieberatung —
+            vereint in einer Mission: digitale Angriffe aufklären, bevor sie zu Krisen werden.
+          </p>
+          <div class="s2-chips" id="s2-chips">
+            <div class="chip"><span class="chip-dot"></span>BKA</div>
+            <div class="chip"><span class="chip-dot"></span>BUNDESWEHR</div>
+            <div class="chip"><span class="chip-dot"></span>FRAUNHOFER</div>
+            <div class="chip"><span class="chip-dot"></span>MCKINSEY</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 3: Services -->
+      <div id="s3" class="scene">
+        <div class="scene-content">
+          <div class="s3-head-row">
+            <h1 class="display s3-head" id="s3-head">
+              Unser Leistungs&shy;spektrum.
+            </h1>
+            <div class="s3-count" id="s3-count">
+              <span class="amber">06 / 06</span>
+              KERNDISZIPLINEN<br/>IT-SICHERHEIT
+            </div>
+          </div>
+          <div class="s3-grid" id="s3-grid">
+            <div class="s3-card"><div class="idx">01</div><div class="name">IT-Forensik</div><div class="tag">Spurensuche in digitalen Vorfällen</div></div>
+            <div class="s3-card"><div class="idx">02</div><div class="name">Incident Response</div><div class="tag">Akute Krisen&shy;bewältigung &amp; IR-Retainer</div></div>
+            <div class="s3-card"><div class="idx">03</div><div class="name">SOC 24 / 7</div><div class="tag">Überwachung durch Experten und KI</div></div>
+            <div class="s3-card"><div class="idx">04</div><div class="name">MEDR / MXDR</div><div class="tag">Managed Detection &amp; Response</div></div>
+            <div class="s3-card"><div class="idx">05</div><div class="name">Penetrations&shy;test</div><div class="tag">Extern &amp; intern, risiko&shy;basiert</div></div>
+            <div class="s3-card"><div class="idx">06</div><div class="name">NIS2 &amp; Compliance</div><div class="tag">Von Assessment bis Risiko&shy;management</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 4: Memory forensics differentiator -->
+      <div id="s4" class="scene">
+        <div class="scene-content">
+          <div class="s4-big" id="s4-big">
+            RAM
+            <span class="unit">FLÜCHTIGER&nbsp;&nbsp;ARBEITSSPEICHER</span>
+          </div>
+          <div class="s4-right">
+            <div class="eyebrow" id="s4-eyebrow"><span class="bar"></span>UNSER SCHWERPUNKT</div>
+            <h1 class="display s4-head" id="s4-head">Memory-Forensik.</h1>
+            <div class="s4-rule" id="s4-rule"></div>
+            <p class="body-text s4-body" id="s4-body">
+              Wir analysieren den <span class="hi">flüchtigen Arbeits&shy;speicher</span> —
+              und finden Spuren, die längst von Datenträgern gelöscht wurden.
+              Daten&shy;diebstahl, Sabotage, Ransomware, Insider&shy;verdacht: die Antworten liegen im RAM.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 5: Trust signals -->
+      <div id="s5" class="scene">
+        <div class="scene-content">
+          <div class="eyebrow" id="s5-eyebrow"><span class="bar"></span>VERTRAUENS&shy;BASIS</div>
+          <h1 class="display s5-head" id="s5-head">
+            Forensik auf <span class="amber">höchstem Niveau</span>.
+          </h1>
+          <div class="s5-rows" id="s5-rows">
+            <div class="s5-row">
+              <div class="num">01</div>
+              <div>
+                <div class="txt">ISO / IEC 27001 : 2022 zertifiziert.</div>
+                <span class="sub">Systematische, risiko&shy;basierte Informations&shy;sicherheit.</span>
+              </div>
+            </div>
+            <div class="s5-row">
+              <div class="num">02</div>
+              <div>
+                <div class="txt">Eigene Forensik-Software.</div>
+                <span class="sub">Lizenziert von nationalen Straf&shy;verfolgungs&shy;behörden.</span>
+              </div>
+            </div>
+            <div class="s5-row">
+              <div class="num">03</div>
+              <div>
+                <div class="txt">Volle Infrastruktur-Abdeckung.</div>
+                <span class="sub">Windows · macOS · Linux · Mobile · Server · Cloud.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 6: Gerichtsverwertbar + Diskret -->
+      <div id="s6" class="scene">
+        <div class="scene-content">
+          <div class="eyebrow" id="s6-eyebrow"><span class="bar"></span>BEWEISSICHERUNG</div>
+          <h1 class="display s6-head" id="s6-head">
+            <span class="amber">Gerichts&shy;verwertbar.</span><br/>Diskret. Präzise.
+          </h1>
+          <p class="body-text s6-body" id="s6-body">
+            Wir rekonstruieren, <span class="hi">was geschah, wie es geschah und wer beteiligt war</span> —
+            und sichern digitale Beweise, die vor Gericht Bestand haben.
+            In vielen Fällen analysieren wir diskret: ohne Systeme abzuschalten,
+            ohne Mitarbeitende vorzeitig zu alarmieren.
+          </p>
+          <div class="s6-meta" id="s6-meta">
+            <div><span class="lbl">METHODIK&nbsp;·</span>REKONSTRUKTION</div>
+            <div><span class="lbl">ERGEBNIS&nbsp;·</span>GERICHTSFESTE BEWEISE</div>
+            <div><span class="lbl">ANSATZ&nbsp;·</span>DISKRETE ANALYSE</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 7: CTA close -->
+      <div id="s7" class="scene">
+        <div class="scene-content">
+          <div class="s7-eyebrow" id="s7-eyebrow">● &nbsp;&nbsp;IM ERNSTFALL</div>
+          <h1 class="display s7-head" id="s7-head">
+            Jede Minute zählt.
+          </h1>
+          <div class="s7-contact" id="s7-contact">
+            <div class="s7-cell">
+              <div class="lbl">NOTFALL-HOTLINE&nbsp;·&nbsp;24 / 7</div>
+              <div class="val">+49 157 92 500 100</div>
+            </div>
+            <div class="s7-cell">
+              <div class="lbl">KONTAKT</div>
+              <div class="val">kontakt@trufflepig-forensics.com</div>
+            </div>
+          </div>
+          <p class="s7-close" id="s7-close">
+            <span class="amber">Trufflepig IT-Forensics</span> — wir schützen Unternehmen,
+            Behörden und Organisationen im digitalen Raum.
+          </p>
+        </div>
+      </div>
+
+      <!-- Persistent brand stamp & frame meta -->
+      <div class="brand-stamp" id="brand-stamp"><span class="dot"></span>TRUFFLEPIG&nbsp;&nbsp;//&nbsp;&nbsp;IT-FORENSICS</div>
+      <div class="frame-meta" id="frame-meta">
+        <span class="meta-line">STATUS&nbsp;&nbsp;<span class="meta-val">● LIVE</span></span>
+        <span class="meta-line">ISO / IEC 27001 : 2022</span>
+      </div>
+
+      <!-- Final fade veil -->
+      <div class="final-veil" id="veil"></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // --- Ambient persistent loops ---
+      tl.to("#glow-a", { x: 80, y: 60, duration: 18, ease: "sine.inOut", yoyo: true, repeat: 2 }, 0);
+      tl.to("#glow-b", { x: -60, y: -40, duration: 22, ease: "sine.inOut", yoyo: true, repeat: 2 }, 0);
+      tl.from("#brand-stamp", { opacity: 0, x: -20, duration: 1.2, ease: "power2.out" }, 0.6);
+      tl.from("#frame-meta",  { opacity: 0, x: 20,  duration: 1.2, ease: "power2.out" }, 0.8);
+
+      // ======================================================
+      // SCENE 1 — Brand opener (0 → 7.5s)
+      // ======================================================
+      tl.from("#s1-marker",  { opacity: 0, y: -18, duration: 0.7, ease: "power2.out" }, 0.3);
+      tl.from("#s1-wordmark",{ opacity: 0, y: 40, scale: 0.96, duration: 1.2, ease: "expo.out" }, 0.7);
+      tl.from("#s1-sub",     { opacity: 0, letterSpacing: "0.1em", duration: 0.9, ease: "power3.out" }, 1.6);
+      tl.fromTo("#s1-rule",  { width: 0 }, { width: 260, duration: 0.9, ease: "power3.inOut" }, 2.2);
+      tl.from("#s1-tagline", { opacity: 0, y: 22, duration: 0.8, ease: "sine.out" }, 2.6);
+
+      // Transition S1 → S2 at T=7.5
+      tl.to("#s1",   { filter: "blur(12px)", scale: 1.03, opacity: 0, duration: 0.5, ease: "power2.inOut" }, 7.5);
+      tl.fromTo("#s2", { filter: "blur(12px)", scale: 0.97, opacity: 0 },
+                       { filter: "blur(0px)",  scale: 1,    opacity: 1, duration: 0.5, ease: "power2.inOut" }, 7.6);
+
+      // ======================================================
+      // SCENE 2 — Positioning (8 → 15.5s)
+      // ======================================================
+      tl.from("#s2-eyebrow", { opacity: 0, x: -24, duration: 0.6, ease: "power2.out" }, 7.9);
+      tl.from("#s2-head",    { opacity: 0, y: 40, duration: 0.9, ease: "power4.out" }, 8.1);
+      tl.from("#s2-body",    { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, 8.7);
+      tl.from("#s2-chips .chip", {
+        opacity: 0, y: 16, duration: 0.5, ease: "back.out(1.3)", stagger: 0.09
+      }, 9.2);
+
+      // Transition S2 → S3 at T=15.5
+      tl.to("#s2",   { filter: "blur(12px)", scale: 1.03, opacity: 0, duration: 0.5, ease: "power2.inOut" }, 15.5);
+      tl.fromTo("#s3", { filter: "blur(12px)", scale: 0.97, opacity: 0 },
+                       { filter: "blur(0px)",  scale: 1,    opacity: 1, duration: 0.5, ease: "power2.inOut" }, 15.6);
+
+      // ======================================================
+      // SCENE 3 — Services (16 → 23.5s)
+      // ======================================================
+      tl.from("#s3-head",  { opacity: 0, y: 28, duration: 0.8, ease: "power3.out" }, 15.9);
+      tl.from("#s3-count", { opacity: 0, x: 24, duration: 0.7, ease: "power2.out" }, 16.3);
+      tl.from("#s3-grid .s3-card", {
+        opacity: 0, y: 26, scale: 0.97, duration: 0.55,
+        ease: "power2.out", stagger: { each: 0.08, from: "start" }
+      }, 16.5);
+
+      // Transition S3 → S4 at T=23.5
+      tl.to("#s3",   { filter: "blur(12px)", scale: 1.03, opacity: 0, duration: 0.5, ease: "power2.inOut" }, 23.5);
+      tl.fromTo("#s4", { filter: "blur(12px)", scale: 0.97, opacity: 0 },
+                       { filter: "blur(0px)",  scale: 1,    opacity: 1, duration: 0.5, ease: "power2.inOut" }, 23.6);
+
+      // ======================================================
+      // SCENE 4 — Memory forensics (24 → 31.5s)
+      // ======================================================
+      tl.from("#s4-big", { opacity: 0, x: -40, scale: 0.94, duration: 1.0, ease: "expo.out" }, 23.9);
+      tl.from("#s4-eyebrow", { opacity: 0, x: -20, duration: 0.6, ease: "power2.out" }, 24.3);
+      tl.from("#s4-head",    { opacity: 0, y: 28, duration: 0.8, ease: "power3.out" }, 24.5);
+      tl.fromTo("#s4-rule",  { width: 0 }, { width: 80, duration: 0.6, ease: "power3.inOut" }, 24.9);
+      tl.from("#s4-body",    { opacity: 0, y: 18, duration: 0.8, ease: "sine.out" }, 25.1);
+
+      // Transition S4 → S5 at T=31.5
+      tl.to("#s4",   { filter: "blur(12px)", scale: 1.03, opacity: 0, duration: 0.5, ease: "power2.inOut" }, 31.5);
+      tl.fromTo("#s5", { filter: "blur(12px)", scale: 0.97, opacity: 0 },
+                       { filter: "blur(0px)",  scale: 1,    opacity: 1, duration: 0.5, ease: "power2.inOut" }, 31.6);
+
+      // ======================================================
+      // SCENE 5 — Trust signals (32 → 39.5s)
+      // ======================================================
+      tl.from("#s5-eyebrow", { opacity: 0, x: -20, duration: 0.6, ease: "power2.out" }, 31.9);
+      tl.from("#s5-head",    { opacity: 0, y: 30, duration: 0.9, ease: "power4.out" }, 32.1);
+      tl.from("#s5-rows .s5-row", {
+        opacity: 0, x: -26, duration: 0.7,
+        ease: "power3.out", stagger: 0.18
+      }, 32.7);
+
+      // Transition S5 → S6 at T=39.5
+      tl.to("#s5",   { filter: "blur(12px)", scale: 1.03, opacity: 0, duration: 0.5, ease: "power2.inOut" }, 39.5);
+      tl.fromTo("#s6", { filter: "blur(12px)", scale: 0.97, opacity: 0 },
+                       { filter: "blur(0px)",  scale: 1,    opacity: 1, duration: 0.5, ease: "power2.inOut" }, 39.6);
+
+      // ======================================================
+      // SCENE 6 — Gerichtsverwertbar (40 → 47.5s)
+      // ======================================================
+      tl.from("#s6-eyebrow", { opacity: 0, x: -20, duration: 0.6, ease: "power2.out" }, 39.9);
+      tl.from("#s6-head",    { opacity: 0, y: 36, duration: 1.0, ease: "power4.out" }, 40.1);
+      tl.from("#s6-body",    { opacity: 0, y: 18, duration: 0.85, ease: "sine.out" }, 40.8);
+      tl.from("#s6-meta > div", {
+        opacity: 0, y: 14, duration: 0.55, ease: "power2.out", stagger: 0.1
+      }, 41.3);
+
+      // Transition S6 → S7 at T=47.5
+      tl.to("#s6",   { filter: "blur(12px)", scale: 1.03, opacity: 0, duration: 0.5, ease: "power2.inOut" }, 47.5);
+      tl.fromTo("#s7", { filter: "blur(12px)", scale: 0.97, opacity: 0 },
+                       { filter: "blur(0px)",  scale: 1,    opacity: 1, duration: 0.5, ease: "power2.inOut" }, 47.6);
+
+      // ======================================================
+      // SCENE 7 — CTA close (48 → 55s)
+      // ======================================================
+      tl.from("#s7-eyebrow",   { opacity: 0, y: -12, duration: 0.6, ease: "power2.out" }, 47.95);
+      tl.from("#s7-head",      { opacity: 0, y: 40, duration: 1.0, ease: "expo.out" }, 48.15);
+      tl.from("#s7-contact .s7-cell", {
+        opacity: 0, y: 24, duration: 0.7, ease: "power3.out", stagger: 0.15
+      }, 48.8);
+      tl.from("#s7-close",     { opacity: 0, y: 14, duration: 0.7, ease: "sine.out" }, 49.6);
+
+      // Final-scene exit (allowed on last scene only): gentle fade to black
+      tl.to("#veil",  { opacity: 1, duration: 1.4, ease: "power2.inOut" }, 53.2);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
