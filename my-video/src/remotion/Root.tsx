@@ -9,6 +9,7 @@ import {
 } from "../../types/constants";
 import { Main } from "./MyComp/Main";
 import { NextLogo } from "./MyComp/NextLogo";
+import { TrufflepigLaunch } from "./TrufflepigLaunch";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -32,6 +33,15 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={{
           outProgress: 0,
         }}
+      />
+      <Composition
+        id="TrufflepigLaunch"
+        component={TrufflepigLaunch}
+        durationInFrames={720}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{}}
       />
     </>
   );
