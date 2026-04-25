@@ -1,8 +1,10 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, interpolate } from 'remotion';
 import { COPY } from '../../gusshausPremiumData';
+import { ASSETS } from '../../gusshausPremiumAssets';
 import { fadeIn, liftIn, drawProgress } from '../../gusshausPremiumMotion';
 import { TextReveal, TrackedReveal, RuleReveal } from './EditorialTypography';
+import { PhotoBackground } from './PhotoBackground';
 
 export const CTAInvitation: React.FC = () => {
   const frame = useCurrentFrame();
@@ -25,7 +27,18 @@ export const CTAInvitation: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ opacity: screenFade * finalFade }}>
-      {/* Very subtle warm glow */}
+      {/* Premium entrance at night — atmospheric, right side very visible */}
+      <PhotoBackground
+        src={ASSETS.beat08}
+        frame={frame}
+        beatDuration={330}
+        objectPosition="62% center"
+        scaleFrom={1.0}
+        scaleTo={1.05}
+        fadeInDuration={28}
+        overlay="linear-gradient(95deg, rgba(11,9,8,0.95) 0%, rgba(11,9,8,0.72) 44%, rgba(11,9,8,0.22) 100%)"
+      />
+      {/* Warm glow */}
       <div style={{
         position: 'absolute', inset: 0,
         background: 'radial-gradient(ellipse 50% 55% at 50% 50%, rgba(196,169,109,0.03) 0%, transparent 70%)',

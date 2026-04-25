@@ -1,8 +1,10 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, interpolate } from 'remotion';
 import { COPY } from '../../gusshausPremiumData';
+import { ASSETS } from '../../gusshausPremiumAssets';
 import { fadeIn, liftIn, drawProgress } from '../../gusshausPremiumMotion';
 import { TextReveal, TrackedReveal, RuleReveal } from './EditorialTypography';
+import { PhotoBackground } from './PhotoBackground';
 
 export const ProofMoment: React.FC = () => {
   const frame = useCurrentFrame();
@@ -25,7 +27,18 @@ export const ProofMoment: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ opacity: screenFade }}>
-      {/* Subtle warm background gradient specific to this beat */}
+      {/* Premium house at dusk — warm golden light, right side visible */}
+      <PhotoBackground
+        src={ASSETS.beat07}
+        frame={frame}
+        beatDuration={210}
+        objectPosition="68% center"
+        scaleFrom={1.0}
+        scaleTo={1.04}
+        fadeInDuration={28}
+        overlay="linear-gradient(95deg, rgba(11,9,8,0.94) 0%, rgba(11,9,8,0.70) 45%, rgba(11,9,8,0.28) 100%)"
+      />
+      {/* Subtle warm radial glow on top */}
       <div style={{
         position: 'absolute', inset: 0,
         background: 'radial-gradient(ellipse 55% 65% at 35% 50%, rgba(196,169,109,0.04) 0%, transparent 70%)',

@@ -1,8 +1,10 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, interpolate } from 'remotion';
 import { COPY } from '../../gusshausPremiumData';
+import { ASSETS } from '../../gusshausPremiumAssets';
 import { fadeIn, liftIn } from '../../gusshausPremiumMotion';
 import { TextReveal, TrackedReveal, RuleReveal } from './EditorialTypography';
+import { PhotoBackground } from './PhotoBackground';
 
 const PANEL_STARTS = [20, 55, 90, 125] as const;
 
@@ -19,6 +21,17 @@ export const MechanismSystem: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ opacity: screenFade }}>
+      {/* Service icons PNG — heavily darkened, used only as subtle paper texture */}
+      <PhotoBackground
+        src={ASSETS.beat06}
+        frame={frame}
+        beatDuration={270}
+        objectPosition="center center"
+        scaleFrom={1.0}
+        scaleTo={1.0}
+        fadeInDuration={30}
+        overlay="rgba(11,9,8,0.88)"
+      />
       {/* Vertical spine line on the left edge of the safe area */}
       <svg
         width={1920}

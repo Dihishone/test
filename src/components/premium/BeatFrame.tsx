@@ -1,12 +1,14 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, interpolate } from 'remotion';
 import { COPY, STAKEHOLDERS, EDGES } from '../../gusshausPremiumData';
+import { ASSETS } from '../../gusshausPremiumAssets';
 import {
   fadeIn, liftIn, drawProgress, nodeOpacity, edgeOpacity,
 } from '../../gusshausPremiumMotion';
 import {
   TextReveal, WordReveal, TrackedReveal, RuleReveal,
 } from './EditorialTypography';
+import { PhotoBackground } from './PhotoBackground';
 
 // ─── Beat 1: Hook ────────────────────────────────────────────────────────────
 
@@ -21,6 +23,16 @@ export const BeatHook: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ opacity: screenFade }}>
+      {/* Aerial people photo — right side visible, dark gradient left for text */}
+      <PhotoBackground
+        src={ASSETS.beat01}
+        frame={frame}
+        beatDuration={150}
+        objectPosition="65% center"
+        scaleFrom={1.0}
+        scaleTo={1.035}
+        overlay="linear-gradient(100deg, rgba(11,9,8,0.95) 0%, rgba(11,9,8,0.88) 36%, rgba(11,9,8,0.55) 62%, rgba(11,9,8,0.28) 100%)"
+      />
       {/* Brand wordmark — top-left */}
       <TrackedReveal
         frame={frame} start={12} text={brand}
@@ -148,6 +160,16 @@ export const BeatProblem: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ opacity: screenFade }}>
+      {/* Blueprint paper texture — architectural drawings as dark background */}
+      <PhotoBackground
+        src={ASSETS.beat02}
+        frame={frame}
+        beatDuration={240}
+        objectPosition="center 30%"
+        scaleFrom={1.03}
+        scaleTo={1.0}
+        overlay="linear-gradient(100deg, rgba(11,9,8,0.90) 0%, rgba(11,9,8,0.78) 38%, rgba(11,9,8,0.72) 100%)"
+      />
       {/* Network fills canvas at low opacity */}
       <div style={{ opacity: 0.72 }}>
         <StakeholderNetwork frame={frame} />
@@ -220,6 +242,16 @@ export const BeatStakes: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ opacity: screenFade }}>
+      {/* Premium building at dusk — behind the three risk columns */}
+      <PhotoBackground
+        src={ASSETS.beat03}
+        frame={frame}
+        beatDuration={180}
+        objectPosition="70% center"
+        scaleFrom={1.0}
+        scaleTo={1.04}
+        overlay="linear-gradient(180deg, rgba(11,9,8,0.72) 0%, rgba(11,9,8,0.58) 50%, rgba(11,9,8,0.68) 100%)"
+      />
       <div style={{
         position: 'absolute',
         inset: 0,
@@ -397,12 +429,22 @@ export const BeatBridge: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ opacity: screenFade }}>
+      {/* Minimalist interior + mountain view — most visible of all beats */}
+      <PhotoBackground
+        src={ASSETS.beat04}
+        frame={frame}
+        beatDuration={180}
+        objectPosition="60% center"
+        scaleFrom={1.0}
+        scaleTo={1.042}
+        overlay="linear-gradient(95deg, rgba(11,9,8,0.92) 0%, rgba(11,9,8,0.65) 42%, rgba(11,9,8,0.18) 100%)"
+      />
       <ConvergenceVisual frame={frame} />
 
       {/* Gradient mask on right so convergence is background only */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(90deg, rgba(11,9,8,0.0) 40%, rgba(11,9,8,0.65) 100%)',
+        background: 'linear-gradient(90deg, rgba(11,9,8,0.0) 40%, rgba(11,9,8,0.45) 100%)',
         pointerEvents: 'none',
       }} />
 
@@ -501,11 +543,21 @@ export const BeatSolution: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ opacity: screenFade }}>
+      {/* Founders photo — subtly visible right side, strong dark left for text */}
+      <PhotoBackground
+        src={ASSETS.beat05}
+        frame={frame}
+        beatDuration={240}
+        objectPosition="70% center"
+        scaleFrom={1.02}
+        scaleTo={1.0}
+        overlay="linear-gradient(95deg, rgba(11,9,8,0.95) 0%, rgba(11,9,8,0.82) 48%, rgba(11,9,8,0.62) 100%)"
+      />
       <SolutionNode frame={frame} />
 
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(90deg, rgba(11,9,8,0.9) 0%, rgba(11,9,8,0.55) 58%, transparent 100%)',
+        background: 'linear-gradient(90deg, rgba(11,9,8,0.6) 0%, rgba(11,9,8,0.25) 58%, transparent 100%)',
         pointerEvents: 'none',
       }} />
 
