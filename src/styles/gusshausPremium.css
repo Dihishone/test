@@ -1,0 +1,291 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
+
+:root {
+  --gph-void:   #0B0908;
+  --gph-paper:  #F0EBE1;
+  --gph-brass:  #C4A96D;
+  --gph-mist:   rgba(240, 235, 225, 0.55);
+  --gph-ghost:  rgba(240, 235, 225, 0.28);
+  --gph-rule:   rgba(240, 235, 225, 0.09);
+  --gph-panel:  rgba(255, 255, 255, 0.03);
+  --gph-border: rgba(240, 235, 225, 0.1);
+
+  --font-editorial: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans:      'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono:      'Courier New', Courier, monospace;
+
+  --margin: 120px;
+}
+
+/* ─── Root ─── */
+.gph-root {
+  background-color: var(--gph-void);
+  color: var(--gph-paper);
+  font-family: var(--font-sans);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Safe zone ─── */
+.gph-safe {
+  position: absolute;
+  inset: 0;
+  padding: var(--margin);
+  box-sizing: border-box;
+}
+
+/* ─── Typography ─── */
+.gph-wordmark {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.46em;
+  text-transform: uppercase;
+  color: var(--gph-brass);
+}
+
+.gph-label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gph-brass);
+}
+
+.gph-display {
+  font-family: var(--font-editorial);
+  font-size: 130px;
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+  color: var(--gph-paper);
+}
+
+.gph-headline {
+  font-family: var(--font-editorial);
+  font-size: 80px;
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.005em;
+  color: var(--gph-paper);
+}
+
+.gph-subhead {
+  font-family: var(--font-sans);
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--gph-mist);
+}
+
+.gph-body {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--gph-ghost);
+}
+
+.gph-question {
+  font-family: var(--font-editorial);
+  font-size: 90px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--gph-paper);
+  white-space: pre-line;
+}
+
+/* ─── Risk columns ─── */
+.gph-risk-grid {
+  display: flex;
+  gap: 2px;
+  width: 100%;
+}
+
+.gph-risk-col {
+  flex: 1;
+  padding: 48px 40px;
+  background: var(--gph-panel);
+  border: 1px solid var(--gph-border);
+  box-sizing: border-box;
+}
+
+.gph-risk-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gph-brass);
+  margin-bottom: 24px;
+}
+
+.gph-risk-title {
+  font-family: var(--font-editorial);
+  font-size: 64px;
+  font-weight: 300;
+  line-height: 1.0;
+  color: var(--gph-paper);
+  margin-bottom: 20px;
+}
+
+.gph-risk-detail {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--gph-ghost);
+  line-height: 1.6;
+}
+
+/* ─── Mechanism panels ─── */
+.gph-mechanism-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+  width: 100%;
+  height: 100%;
+}
+
+.gph-service-panel {
+  background: var(--gph-panel);
+  border: 1px solid var(--gph-border);
+  padding: 48px 44px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.gph-service-number {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--gph-brass);
+  margin-bottom: 20px;
+}
+
+.gph-service-title {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gph-paper);
+  margin-bottom: 32px;
+  line-height: 1.4;
+}
+
+.gph-service-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gph-service-item {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--gph-ghost);
+  padding-left: 18px;
+  position: relative;
+}
+
+.gph-service-item::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gph-brass);
+  font-size: 12px;
+  top: 2px;
+}
+
+/* ─── Proof ─── */
+.gph-founders {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.gph-founder-name {
+  font-family: var(--font-editorial);
+  font-size: 72px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--gph-paper);
+}
+
+.gph-founder-role {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  color: var(--gph-brass);
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+
+.gph-proof-statement {
+  font-family: var(--font-editorial);
+  font-size: 44px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--gph-mist);
+  white-space: pre-line;
+}
+
+/* ─── CTA ─── */
+.gph-cta-headline {
+  font-family: var(--font-editorial);
+  font-size: 88px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--gph-paper);
+  white-space: pre-line;
+}
+
+.gph-cta-invitation {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--gph-mist);
+}
+
+.gph-cta-website {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.38em;
+  color: var(--gph-brass);
+}
+
+.gph-cta-note {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--gph-ghost);
+  white-space: pre-line;
+}
+
+/* ─── Divider ─── */
+.gph-rule-h {
+  width: 100%;
+  height: 1px;
+  background: var(--gph-border);
+}
+
+.gph-rule-accent {
+  height: 1px;
+  background: var(--gph-brass);
+  opacity: 0.4;
+}
