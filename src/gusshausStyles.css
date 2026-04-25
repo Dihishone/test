@@ -1,0 +1,24 @@
+/* Gusshaus Explainer — base reset for Remotion canvas */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #252322;
+}
+
+/* Utility: prevent text selection artifacts in preview */
+.gusshaus-root {
+  user-select: none;
+  -webkit-user-select: none;
+  overflow: hidden;
+}
+
+/* Thin editorial rule */
+.editorial-rule {
+  border: none;
+  border-top: 1px solid rgba(233, 228, 220, 0.25);
+}
