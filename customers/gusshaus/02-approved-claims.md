@@ -1,6 +1,6 @@
 # Approved Claims — Gusshaus GmbH
 
-Status: Initialisiert aus Briefing. Alle Claims pending — keine darf vor Freigabe im Script erscheinen.
+Status: Produktionsbereit mit Platzhaltern. Zeilen mit ⚑ PLATZHALTER müssen vor Final-Render durch echte Werte ersetzt werden.
 
 ---
 
@@ -45,26 +45,28 @@ Status: Initialisiert aus Briefing. Alle Claims pending — keine darf vor Freig
 
 ---
 
-### CLAIM_004 — Referenzprojekt Platzhalter (Beat 7)
+### CLAIM_004 — Referenzprojekt ⚑ PLATZHALTER
 
 | Feld | Wert |
 |---|---|
-| Approved wording | [PLATZHALTER] "Hotelerweiterung [NAME], [Region] — Termin eingehalten. Budget eingehalten. Bauherr kam beim nächsten Projekt wieder." |
+| Approved wording | "**[PROJEKTNAME A]**, **[REGION A]** — Termin eingehalten. Budget eingehalten. Und ein Bauherr, der beim nächsten Projekt wieder angerufen hat." |
+| Platzhalter | `[PROJEKTNAME A]` = konkreter Projektname (z.B. "Hotelerweiterung Sonnenhof") · `[REGION A]` = Ort/Region |
 | Erlaubte Verwendung | Voiceover |
-| Verbotene Varianten | Kein Projektname ohne explizite Freigabe des Bauherrn |
-| Quelle / Nachweis | Fehlt — muss von Gusshaus bereitgestellt werden |
-| Approval-Status | [ ] Blockiert — kein freigegebener Projektname vorhanden |
+| Verbotene Varianten | Kein Projektname ohne schriftliche Freigabe des Bauherrn |
+| Quelle / Nachweis | ⚑ Muss von Gusshaus geliefert werden |
+| Approval-Status | [ ] Pending — Platzhalter im Script freigegeben; finale Werte ausstehend |
 | Freigegeben von | — |
 
-**Fallback (CLAIM_004B), falls kein Projektname:**
+**Fallback (CLAIM_004B) — wenn kein Projektname freigegeben wird:**
 
 | Feld | Wert |
 |---|---|
-| Approved wording | "In [X] Projekten im alpinen Raum: Termin gehalten. Budget gehalten. Bauherren, die wiederkommen." |
-| Erlaubte Verwendung | Voiceover + On-Screen (Zahl groß als Grafik) |
-| Verbotene Varianten | Zahl [X] muss real und belegbar sein; keine Schätzung |
-| Quelle / Nachweis | Interne Projektliste Gusshaus — muss geliefert werden |
-| Approval-Status | [ ] Blockiert — Zahl [X] noch nicht bekannt |
+| Approved wording | "In **[XX]** Projekten im alpinen Raum: Termin gehalten. Budget gehalten. Und Bauherren, die wiederkommen." |
+| Platzhalter | `[XX]` = reale Projektanzahl (z.B. "14", "über 20") |
+| Erlaubte Verwendung | Voiceover + On-Screen (Zahl groß animiert) |
+| Verbotene Varianten | `[XX]` muss real und intern belegbar sein — keine Schätzung |
+| Quelle / Nachweis | ⚑ Interne Projektliste Gusshaus — muss geliefert werden |
+| Approval-Status | [ ] Pending — Platzhalter im Script freigegeben; finale Zahl ausstehend |
 | Freigegeben von | — |
 
 ---
@@ -86,5 +88,5 @@ Status: Initialisiert aus Briefing. Alle Claims pending — keine darf vor Freig
 | CLAIM_001 | Vollverantwortung Skizze–Schlüssel | [x] | [ ] |
 | CLAIM_002 | Gründernamen + Jahr | [x] | [ ] |
 | CLAIM_003 | BIM/3D-Scanning Fehlervermeidung | [ ] Pending | [ ] |
-| CLAIM_004 | Referenzprojekt (konkret) | [ ] Blockiert | [ ] |
-| CLAIM_004B | Fallback: Projektzahl + Outcome | [ ] Blockiert | [ ] |
+| CLAIM_004 | ⚑ [PROJEKTNAME A] + Outcome | [ ] Pending (Platzhalter aktiv) | [ ] |
+| CLAIM_004B | ⚑ [XX] Projekte + Outcome | [ ] Pending (Platzhalter aktiv) | [ ] |

@@ -1,6 +1,6 @@
 # VIDEO_STATE — Gusshaus GmbH
 **Single source of truth für den aktuellen Projektstatus.**
-Zuletzt aktualisiert: 2026-04-26 — Initialisierung aus Briefing
+Zuletzt aktualisiert: 2026-04-26 — Script + Storyboard v0.1 erstellt
 
 ---
 
@@ -77,14 +77,15 @@ Das Video soll Vertrauen und Differenzierung bei Bauherren erzeugen, die bereits
 
 ---
 
-## Offene Punkte (blockieren Fortschritt)
+## Offene Punkte
 
-- [ ] **KRITISCH:** Proof-Claim (Beat 7) nicht freigegeben — Projektname oder Kennzahl fehlt
-- [ ] CLAIM_003 (BIM/3D-Scanning) Formulierung muss abgestimmt werden
-- [ ] Voiceover-Entscheidung: Profi-Sprecher oder Gründer
-- [ ] Brand-Assets noch nicht geliefert (Logo, Farben, Schriften)
-- [ ] Zielgruppen-Priorisierung: Wohnbau oder Hotellerie primär?
-- [ ] Logo-Outro: ja/nein, Dauer?
+- [ ] ⚑ **Beat B7:** Entscheidung Variante A (Projektname) oder B (Projektzahl) — Gusshaus liefert Daten
+- [ ] ⚑ **CLAIM_003** Formulierung "eliminieren" mit Gusshaus abstimmen
+- [ ] ⚑ **Voiceover:** Professioneller Sprecher oder Gründer?
+- [ ] ⚑ **Assets:** 13 Platzhalter in `05-storyboard.md` — vollständige Liste dort
+- [ ] ⚑ **Brand-Assets:** Logo, Farben, Schriften noch nicht geliefert
+- [ ] ⚑ **Zielgruppen-Priorisierung:** Wohnbau oder Hotellerie primär?
+- [ ] ⚑ **Logo-Outro:** ja/nein, Dauer?
 
 ---
 
@@ -104,5 +105,9 @@ Das Video soll Vertrauen und Differenzierung bei Bauherren erzeugen, die bereits
 
 ## Nächster Schritt
 
-Offene Punkte mit Gusshaus klären (insbesondere Proof-Claim Beat 7), dann Script- und Storyboard-Phase starten.
-Empfohlener nächster Prompt: `Starte Script-Phase für Gusshaus. Lies VIDEO_STATE.md und 02-approved-claims.md. Schreibe 04-script.md auf Basis der 8-Beat-Struktur.`
+Script v0.1 und Storyboard v0.1 erstellt — alle Platzhalter mit ⚑ markiert.
+
+**Sofort möglich:** Gusshaus-Review von Script + Storyboard (B1–B6, B8 vollständig; B7 als Variante A/B).
+**Blockiert bis Gusshaus liefert:** B7 finale Wahl + Assets (13 Platzhalter in `05-storyboard.md`).
+
+Empfohlener nächster Prompt: `Starte Produktionsplanung für Gusshaus. Lies VIDEO_STATE.md und 05-storyboard.md. Schreibe 06-production-plan.md für Remotion-Umsetzung.`
