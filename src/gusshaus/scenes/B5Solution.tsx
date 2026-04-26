@@ -7,19 +7,17 @@ import { FoundersPlaceholder } from "../components/FoundersPlaceholder";
 
 const FOUNDER_PHOTO = "gusshaus/founders.jpg";
 
-// Try real photo; fall back to illustrated placeholder
-const FoundersImage: React.FC = () => {
-  const [useFallback, setUseFallback] = React.useState(false);
+// ⚑ Swap to real photo: replace false with true and drop founders.jpg in public/gusshaus/
+const HAS_FOUNDER_PHOTO = false;
 
-  if (useFallback) {
+const FoundersImage: React.FC = () => {
+  if (!HAS_FOUNDER_PHOTO) {
     return <FoundersPlaceholder />;
   }
-
   return (
     <Img
       src={staticFile(FOUNDER_PHOTO)}
       style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
-      onError={() => setUseFallback(true)}
     />
   );
 };
