@@ -1,6 +1,6 @@
 # VIDEO_STATE — Gusshaus GmbH
 **Single source of truth für den aktuellen Projektstatus.**
-Zuletzt aktualisiert: 2026-04-26 — Script + Storyboard v0.1 erstellt
+Zuletzt aktualisiert: 2026-04-26 — Gründerfoto + Logo erhalten; Brand-Guidelines aktualisiert
 
 ---
 
@@ -71,21 +71,38 @@ Das Video soll Vertrauen und Differenzierung bei Bauherren erzeugen, die bereits
 ## Aktuelle Visuelle Richtung
 
 - **Stil:** Premium, warm-neutral, architekturnahe Ruhigkeit
-- **Hintergrund:** Warmes Off-White (kein dunkles Interface-Video)
-- **Motion-Register:** Langsam, typografisch, kontrolliert
-- **Details:** `03-brand-guidelines-summary.md` (hypothetisch — warten auf echte Assets)
+- **Hintergrund B1–B7:** Beton-Warm (#D8D4CE) und Off-White — abgeleitet aus Gründerfoto-Wand
+- **Magenta (#8C1A7E):** Nur CTA-Frame (B8) + sparsamer Typografie-Akzent bei "Gusshaus."-Reveal (B5)
+- **Motion-Register:** Langsam, typografisch, kontrolliert — 24fps
+- **Details:** `03-brand-guidelines-summary.md` — aktualisiert mit echten Assets
 
 ---
 
-## Offene Punkte
+## Asset-Status
 
-- [ ] ⚑ **Beat B7:** Entscheidung Variante A (Projektname) oder B (Projektzahl) — Gusshaus liefert Daten
-- [ ] ⚑ **CLAIM_003** Formulierung "eliminieren" mit Gusshaus abstimmen
+| Asset | Status |
+|---|---|
+| Gründerfoto (Manfred + Matthäus Heigl) | [x] Erhalten · ⚑ Datei ablegen in `public/` |
+| Logo (Vollform auf Magenta) | [x] Erhalten · ⚑ Freigestellte/Weiß-Version fehlt noch |
+| Brand-Farben | [x] Aus Logo extrahiert — `03-brand-guidelines-summary.md` |
+| Typografie / Markenfont | ⚑ Noch nicht geliefert |
+| Planungsszene (B1) | ⚑ Fehlt |
+| Fragmentierungs-Bilder (B2) | ⚑ Fehlt |
+| Planungsdetail-Nahaufnahme (B3) | ⚑ Fehlt |
+| Bridge-Bild / Textur (B4) | ⚑ Fehlt |
+| BIM-Screen (B6) | ⚑ Fehlt |
+| 3D-Scan-Visualisierung (B6) | ⚑ Fehlt |
+| Referenzprojekt-Foto (B7) | ⚑ Fehlt |
+| Proof-Daten B7 (Projektname oder Zahl) | ⚑ Fehlt |
+
+## Offene Entscheidungen
+
+- [ ] ⚑ **Beat B7:** Variante A (Projektname) oder B (Projektzahl)?
+- [ ] ⚑ **CLAIM_003** Formulierung "eliminieren" abstimmen
 - [ ] ⚑ **Voiceover:** Professioneller Sprecher oder Gründer?
-- [ ] ⚑ **Assets:** 13 Platzhalter in `05-storyboard.md` — vollständige Liste dort
-- [ ] ⚑ **Brand-Assets:** Logo, Farben, Schriften noch nicht geliefert
-- [ ] ⚑ **Zielgruppen-Priorisierung:** Wohnbau oder Hotellerie primär?
-- [ ] ⚑ **Logo-Outro:** ja/nein, Dauer?
+- [ ] ⚑ **Markenfont:** Welche Schrift verwendet Gusshaus?
+- [ ] ⚑ **Logo-Outro:** ja/nein, wie lang?
+- [ ] ⚑ **Zielgruppen-Priorisierung:** Wohnbau oder Hotellerie primär für B7-Bildwahl?
 
 ---
 
