@@ -1,6 +1,5 @@
 import React from "react";
 import { AbsoluteFill, Sequence } from "remotion";
-import { waitUntilDone } from "./font";
 import {
   FPS, DURATION,
   B1_START, B1_DUR,
@@ -21,8 +20,8 @@ import { B6Mechanism } from "./scenes/B6Mechanism";
 import { B7Proof } from "./scenes/B7Proof";
 import { B8CTA } from "./scenes/B8CTA";
 
-// Block rendering until Cormorant Garamond is loaded
-waitUntilDone();
+// Font loaded via delayRender in font.ts — import triggers registration
+import "./font";
 
 // Cross-fade overlap in frames
 const OVERLAP = 6;
