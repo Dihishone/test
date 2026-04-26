@@ -3,10 +3,11 @@ import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
 import { COLORS } from "../colors";
 import { FPS, FADE_DURATION } from "../timing";
 import { fontFamily } from "../font";
+import { BuildingExterior } from "../components/BuildingExterior";
 
-// ⚑ PLATZHALTER — vor Final-Render ersetzen
-const PROOF_PROJECT_NAME = "⚑ [PROJEKTNAME A]";
-const PROOF_REGION = "⚑ [REGION A]";
+// ⚑ PLATZHALTER — vor Final-Render durch echte Werte ersetzen
+const PROOF_PROJECT_NAME = "⚑ Projektname A";
+const PROOF_REGION = "⚑ Region A";
 
 export const B7Proof: React.FC = () => {
   const frame = useCurrentFrame();
@@ -49,28 +50,28 @@ export const B7Proof: React.FC = () => {
   });
 
   return (
-    <AbsoluteFill
-      style={{
-        background: COLORS.BG_DARK,
-        opacity: bgOpacity,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        padding: "0 140px",
-      }}
-    >
-      <div>
-        {/* Placeholder notice (visible in draft) */}
-        <div
-          style={{
-            fontFamily,
-            fontSize: 16,
-            color: COLORS.ACCENT_TEAL,
-            letterSpacing: "0.12em",
-            marginBottom: 24,
-            textTransform: "uppercase",
-          }}
-        >
+    <AbsoluteFill style={{ opacity: bgOpacity }}>
+      {/* Building exterior illustration */}
+      <BuildingExterior />
+
+      {/* Dark overlay — bottom area for text */}
+      <AbsoluteFill
+        style={{
+          background: "linear-gradient(to top, rgba(30,28,26,0.95) 38%, rgba(30,28,26,0.5) 65%, transparent 100%)",
+        }}
+      />
+
+      {/* Text — bottom aligned */}
+      <AbsoluteFill
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          padding: "0 140px 100px",
+        }}
+      >
+        {/* Placeholder notice */}
+        <div style={{ fontFamily, fontSize: 14, color: COLORS.ACCENT_TEAL, letterSpacing: "0.12em", marginBottom: 16, textTransform: "uppercase" }}>
           Referenzprojekt — ⚑ Platzhalter aktiv
         </div>
 
@@ -78,59 +79,33 @@ export const B7Proof: React.FC = () => {
           style={{
             opacity: projectNameOpacity,
             transform: `scale(${projectNameScale})`,
-            transformOrigin: "left center",
-            fontFamily,
-            fontSize: 72,
-            fontWeight: 700,
-            color: COLORS.TEXT_LIGHT,
-            letterSpacing: "0.01em",
-            marginBottom: 8,
+            transformOrigin: "left bottom",
           }}
         >
-          {PROOF_PROJECT_NAME}
-        </div>
-        <div
-          style={{
-            opacity: projectNameOpacity,
-            fontFamily,
-            fontSize: 32,
-            fontWeight: 400,
-            color: COLORS.TEXT_MUTED,
-            letterSpacing: "0.04em",
-            marginBottom: 48,
-          }}
-        >
-          {PROOF_REGION}
+          <div style={{ fontFamily, fontSize: 68, fontWeight: 700, color: COLORS.TEXT_LIGHT, letterSpacing: "0.01em" }}>
+            {PROOF_PROJECT_NAME}
+          </div>
+          <div style={{ fontFamily, fontSize: 28, fontWeight: 400, color: COLORS.TEXT_MUTED, letterSpacing: "0.04em", marginBottom: 40 }}>
+            {PROOF_REGION}
+          </div>
         </div>
 
         {/* Outcome labels */}
-        <div style={{ display: "flex", gap: 48 }}>
+        <div style={{ display: "flex", gap: 56 }}>
           <div style={{ opacity: label1Opacity }}>
-            <div style={{ fontFamily, fontSize: 22, fontWeight: 700, color: COLORS.ACCENT_TEAL, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 4 }}>
-              Termin
-            </div>
-            <div style={{ fontFamily, fontSize: 36, fontWeight: 700, color: COLORS.TEXT_LIGHT }}>
-              Eingehalten.
-            </div>
+            <div style={{ fontFamily, fontSize: 18, fontWeight: 700, color: COLORS.ACCENT_TEAL, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 4 }}>Termin</div>
+            <div style={{ fontFamily, fontSize: 34, fontWeight: 700, color: COLORS.TEXT_LIGHT }}>Eingehalten.</div>
           </div>
           <div style={{ opacity: label2Opacity }}>
-            <div style={{ fontFamily, fontSize: 22, fontWeight: 700, color: COLORS.ACCENT_TEAL, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 4 }}>
-              Budget
-            </div>
-            <div style={{ fontFamily, fontSize: 36, fontWeight: 700, color: COLORS.TEXT_LIGHT }}>
-              Eingehalten.
-            </div>
+            <div style={{ fontFamily, fontSize: 18, fontWeight: 700, color: COLORS.ACCENT_TEAL, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 4 }}>Budget</div>
+            <div style={{ fontFamily, fontSize: 34, fontWeight: 700, color: COLORS.TEXT_LIGHT }}>Eingehalten.</div>
           </div>
-          <div style={{ opacity: label3Opacity, maxWidth: 380 }}>
-            <div style={{ fontFamily, fontSize: 22, fontWeight: 700, color: COLORS.ACCENT_TEAL, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 4 }}>
-              Bauherr
-            </div>
-            <div style={{ fontFamily, fontSize: 36, fontWeight: 400, color: COLORS.TEXT_LIGHT, fontStyle: "italic" }}>
-              Kam beim nächsten Projekt wieder.
-            </div>
+          <div style={{ opacity: label3Opacity, maxWidth: 400 }}>
+            <div style={{ fontFamily, fontSize: 18, fontWeight: 700, color: COLORS.ACCENT_TEAL, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 4 }}>Bauherr</div>
+            <div style={{ fontFamily, fontSize: 34, fontWeight: 400, color: COLORS.TEXT_LIGHT, fontStyle: "italic" }}>Kam beim nächsten Projekt wieder.</div>
           </div>
         </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

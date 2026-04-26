@@ -3,6 +3,7 @@ import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
 import { COLORS } from "../colors";
 import { FPS, FADE_DURATION } from "../timing";
 import { fontFamily } from "../font";
+import { PlanningDetail } from "../components/PlanningDetail";
 
 export const B3Stakes: React.FC = () => {
   const frame = useCurrentFrame();
@@ -26,49 +27,62 @@ export const B3Stakes: React.FC = () => {
   });
 
   return (
-    <AbsoluteFill
-      style={{
-        background: COLORS.BG_WARM,
-        opacity: bgOpacity,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        padding: "0 140px",
-      }}
-    >
-      <div style={{ maxWidth: 900 }}>
-        <div
-          style={{
-            opacity: bodyOpacity,
-            fontFamily,
-            fontSize: 44,
-            fontWeight: 400,
-            color: COLORS.TEXT_DARK,
-            lineHeight: 1.5,
-            letterSpacing: "0.01em",
-          }}
-        >
-          Jeder Schritt in der Planung hat finanzielle
-          <br />
-          und langfristige Auswirkungen auf Ihre Wohnqualität.
-        </div>
+    <AbsoluteFill style={{ opacity: bgOpacity }}>
+      {/* Planning detail illustration — architectural drawings */}
+      <PlanningDetail />
 
-        <div
-          style={{
-            opacity: accentOpacity,
-            marginTop: 40,
-            fontFamily,
-            fontSize: 64,
-            fontWeight: 700,
-            color: COLORS.TEXT_DARK,
-            letterSpacing: "0.01em",
-            borderLeft: `5px solid ${COLORS.ACCENT_MAGENTA}`,
-            paddingLeft: 28,
-          }}
-        >
-          Fehler kosten dauerhaft.
+      {/* Left side gradient overlay for text */}
+      <AbsoluteFill
+        style={{
+          background: "linear-gradient(to right, rgba(216,212,206,0.96) 38%, rgba(216,212,206,0.7) 60%, transparent 100%)",
+        }}
+      />
+
+      {/* Text layer */}
+      <AbsoluteFill
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          padding: "0 140px",
+        }}
+      >
+        <div style={{ maxWidth: 680 }}>
+          <div
+            style={{
+              opacity: bodyOpacity,
+              fontFamily,
+              fontSize: 40,
+              fontWeight: 400,
+              color: COLORS.TEXT_DARK,
+              lineHeight: 1.55,
+              letterSpacing: "0.01em",
+            }}
+          >
+            Jeder Schritt in der Planung hat
+            <br />
+            finanzielle und langfristige Auswirkungen
+            <br />
+            auf Ihre Wohnqualität.
+          </div>
+
+          <div
+            style={{
+              opacity: accentOpacity,
+              marginTop: 48,
+              fontFamily,
+              fontSize: 60,
+              fontWeight: 700,
+              color: COLORS.TEXT_DARK,
+              letterSpacing: "0.01em",
+              borderLeft: `5px solid ${COLORS.ACCENT_MAGENTA}`,
+              paddingLeft: 28,
+            }}
+          >
+            Fehler kosten dauerhaft.
+          </div>
         </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

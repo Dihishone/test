@@ -3,6 +3,7 @@ import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
 import { COLORS } from "../colors";
 import { FPS, TEXT_FADE } from "../timing";
 import { fontFamily } from "../font";
+import { FragmentationVisual } from "../components/FragmentationVisual";
 
 const Label: React.FC<{
   text: string;
@@ -47,7 +48,6 @@ export const B2Problem: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  // Staggered labels: Planer. → Bauleitung. → Koordination?
   const label1Start = Math.round(1.0 * FPS);
   const label2Start = Math.round(2.8 * FPS);
   const label3Start = Math.round(4.8 * FPS);
@@ -58,33 +58,37 @@ export const B2Problem: React.FC = () => {
     easing: Easing.out(Easing.ease),
   });
 
+  // Fragmentation islands fade in sync with labels
+  const show1 = frame >= label1Start;
+  const show2 = frame >= label2Start;
+  const show3 = frame >= label3Start;
+
   return (
-    <AbsoluteFill
-      style={{
-        background: COLORS.BG_DARK,
-        opacity: bgOpacity,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        padding: "0 140px",
-      }}
-    >
-      <div style={{ width: "100%" }}>
+    <AbsoluteFill style={{ opacity: bgOpacity }}>
+      {/* Fragmentation illustration */}
+      <FragmentationVisual showLabel1={show1} showLabel2={show2} showLabel3={show3} />
+
+      {/* Dark overlay — bottom half for text */}
+      <AbsoluteFill
+        style={{
+          background: "linear-gradient(to top, rgba(30,28,26,0.92) 40%, rgba(30,28,26,0.2) 80%, transparent 100%)",
+        }}
+      />
+
+      {/* Text overlay — bottom aligned */}
+      <AbsoluteFill
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          padding: "0 140px 120px",
+        }}
+      >
         {/* Staggered labels */}
-        <div style={{ display: "flex", gap: 48, marginBottom: 60, alignItems: "baseline" }}>
+        <div style={{ display: "flex", gap: 48, marginBottom: 40, alignItems: "baseline" }}>
           <Label text="Planer." frame={frame} startAt={label1Start} />
-          <Label
-            text="Bauleitung."
-            frame={frame}
-            startAt={label2Start}
-            color={COLORS.TEXT_MUTED}
-          />
-          <Label
-            text="Koordination?"
-            frame={frame}
-            startAt={label3Start}
-            color={COLORS.ACCENT_TEAL}
-          />
+          <Label text="Bauleitung." frame={frame} startAt={label2Start} color={COLORS.TEXT_MUTED} />
+          <Label text="Koordination?" frame={frame} startAt={label3Start} color={COLORS.ACCENT_TEAL} />
         </div>
 
         {/* Body copy */}
@@ -92,7 +96,7 @@ export const B2Problem: React.FC = () => {
           style={{
             opacity: bodyOpacity,
             fontFamily,
-            fontSize: 38,
+            fontSize: 36,
             fontWeight: 400,
             color: COLORS.TEXT_LIGHT,
             lineHeight: 1.5,
@@ -103,7 +107,7 @@ export const B2Problem: React.FC = () => {
           <br />
           Und Sie stehen mittendrin.
         </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

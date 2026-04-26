@@ -3,13 +3,13 @@ import { AbsoluteFill, useCurrentFrame, interpolate, Easing } from "remotion";
 import { COLORS } from "../colors";
 import { FPS, TEXT_FADE } from "../timing";
 import { fontFamily } from "../font";
+import { BIMScreen } from "../components/BIMScreen";
 
 const ServiceLabel: React.FC<{
   text: string;
   frame: number;
   startAt: number;
-  index: number;
-}> = ({ text, frame, startAt, index }) => {
+}> = ({ text, frame, startAt }) => {
   const localFrame = frame - startAt;
   const opacity = interpolate(localFrame, [0, TEXT_FADE * 2], [0, 1], {
     extrapolateLeft: "clamp",
@@ -30,27 +30,11 @@ const ServiceLabel: React.FC<{
         display: "flex",
         alignItems: "center",
         gap: 20,
-        marginBottom: 24,
+        marginBottom: 20,
       }}
     >
-      <div
-        style={{
-          width: 6,
-          height: 6,
-          borderRadius: "50%",
-          background: COLORS.ACCENT_MAGENTA,
-          flexShrink: 0,
-        }}
-      />
-      <div
-        style={{
-          fontFamily,
-          fontSize: 52,
-          fontWeight: 700,
-          color: COLORS.TEXT_DARK,
-          letterSpacing: "0.02em",
-        }}
-      >
+      <div style={{ width: 6, height: 6, borderRadius: "50%", background: COLORS.ACCENT_MAGENTA, flexShrink: 0 }} />
+      <div style={{ fontFamily, fontSize: 52, fontWeight: 700, color: COLORS.TEXT_LIGHT, letterSpacing: "0.02em" }}>
         {text}
       </div>
     </div>
@@ -61,6 +45,12 @@ export const B6Mechanism: React.FC = () => {
   const frame = useCurrentFrame();
 
   const bgOpacity = interpolate(frame, [0, 8], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
+  // BIM screen fades in at start, becomes background
+  const screenOpacity = interpolate(frame, [0, 12], [0, 0.55], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -84,63 +74,59 @@ export const B6Mechanism: React.FC = () => {
   });
 
   return (
-    <AbsoluteFill
-      style={{
-        background: COLORS.BG_WARM,
-        opacity: bgOpacity,
-        display: "flex",
-        alignItems: "center",
-        padding: "0 140px",
-      }}
-    >
-      <div style={{ width: "100%" }}>
-        {/* Service labels */}
-        <ServiceLabel text="Entwurfsplanung." frame={frame} startAt={s1Start} index={0} />
-        <ServiceLabel text="Genehmigung." frame={frame} startAt={s2Start} index={1} />
-        <ServiceLabel text="Baumanagement." frame={frame} startAt={s3Start} index={2} />
+    <AbsoluteFill style={{ background: COLORS.BG_DARK, opacity: bgOpacity }}>
+      {/* BIM Screen illustration as background */}
+      <BIMScreen opacity={screenOpacity} />
 
-        {/* BIM/3D claim */}
-        <div
-          style={{
-            opacity: bimOpacity,
-            marginTop: 48,
-            padding: "24px 32px",
-            background: COLORS.BG_WHITE,
-            borderLeft: `4px solid ${COLORS.ACCENT_TEAL}`,
-            maxWidth: 760,
-          }}
-        >
+      {/* Dark overlay */}
+      <AbsoluteFill style={{ background: "rgba(30,28,26,0.72)" }} />
+
+      {/* Text content */}
+      <AbsoluteFill
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "0 140px",
+        }}
+      >
+        <div style={{ width: "100%" }}>
+          <ServiceLabel text="Entwurfsplanung." frame={frame} startAt={s1Start} />
+          <ServiceLabel text="Genehmigung." frame={frame} startAt={s2Start} />
+          <ServiceLabel text="Baumanagement." frame={frame} startAt={s3Start} />
+
           <div
             style={{
-              fontFamily,
-              fontSize: 28,
-              fontWeight: 400,
-              color: COLORS.TEXT_DARK,
-              lineHeight: 1.5,
+              opacity: bimOpacity,
+              marginTop: 48,
+              padding: "24px 32px",
+              background: "rgba(123,160,166,0.12)",
+              borderLeft: `4px solid ${COLORS.ACCENT_TEAL}`,
+              maxWidth: 760,
             }}
           >
-            Mit BIM-Modellen und 3D-Scanning eliminieren
-            <br />
-            wir Fehler bevor sie entstehen.
+            <div style={{ fontFamily, fontSize: 28, fontWeight: 400, color: COLORS.TEXT_LIGHT, lineHeight: 1.5 }}>
+              Mit BIM-Modellen und 3D-Scanning eliminieren
+              <br />
+              wir Fehler bevor sie entstehen.
+            </div>
+          </div>
+
+          <div
+            style={{
+              opacity: conclusionOpacity,
+              marginTop: 24,
+              fontFamily,
+              fontSize: 26,
+              fontWeight: 400,
+              color: COLORS.TEXT_MUTED,
+              fontStyle: "italic",
+              letterSpacing: "0.02em",
+            }}
+          >
+            Nicht weil es modern klingt. Weil es funktioniert.
           </div>
         </div>
-
-        {/* Conclusion */}
-        <div
-          style={{
-            opacity: conclusionOpacity,
-            marginTop: 24,
-            fontFamily,
-            fontSize: 28,
-            fontWeight: 400,
-            color: COLORS.TEXT_MUTED,
-            fontStyle: "italic",
-            letterSpacing: "0.02em",
-          }}
-        >
-          Nicht weil es modern klingt. Weil es funktioniert.
-        </div>
-      </div>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };

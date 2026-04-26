@@ -3,8 +3,26 @@ import { AbsoluteFill, useCurrentFrame, interpolate, Easing, Img, staticFile } f
 import { COLORS } from "../colors";
 import { FPS, FADE_DURATION } from "../timing";
 import { fontFamily } from "../font";
+import { FoundersPlaceholder } from "../components/FoundersPlaceholder";
 
 const FOUNDER_PHOTO = "gusshaus/founders.jpg";
+
+// Try real photo; fall back to illustrated placeholder
+const FoundersImage: React.FC = () => {
+  const [useFallback, setUseFallback] = React.useState(false);
+
+  if (useFallback) {
+    return <FoundersPlaceholder />;
+  }
+
+  return (
+    <Img
+      src={staticFile(FOUNDER_PHOTO)}
+      style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
+      onError={() => setUseFallback(true)}
+    />
+  );
+};
 
 export const B5Solution: React.FC = () => {
   const frame = useCurrentFrame();
@@ -14,7 +32,6 @@ export const B5Solution: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  // Name label appears at ~1.2s
   const nameStart = Math.round(1.2 * FPS);
   const nameOpacity = interpolate(frame, [nameStart, nameStart + FADE_DURATION * 2], [0, 1], {
     extrapolateLeft: "clamp",
@@ -27,7 +44,6 @@ export const B5Solution: React.FC = () => {
     easing: Easing.out(Easing.ease),
   });
 
-  // "Gusshaus." reveal at ~5s — magenta accent
   const brandStart = Math.round(5.0 * FPS);
   const brandOpacity = interpolate(frame, [brandStart, brandStart + Math.round(0.5 * FPS) * 2], [0, 1], {
     extrapolateLeft: "clamp",
@@ -48,7 +64,7 @@ export const B5Solution: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ background: COLORS.BG_WARM, opacity: bgOpacity }}>
-      {/* Left: Founder photo (placeholder bg if file not present) */}
+      {/* Left: Founder photo or illustrated placeholder */}
       <AbsoluteFill
         style={{
           width: "50%",
@@ -56,16 +72,8 @@ export const B5Solution: React.FC = () => {
           overflow: "hidden",
         }}
       >
-        <Img
-          src={staticFile(FOUNDER_PHOTO)}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            objectPosition: "center top",
-          }}
-          onError={() => {}}
-        />
+        <FoundersImage />
+
         {/* Name label — Bauchbinde style */}
         <div
           style={{
@@ -122,7 +130,6 @@ export const B5Solution: React.FC = () => {
           padding: "0 80px",
         }}
       >
-        {/* "Gusshaus." Magenta reveal */}
         <div
           style={{
             opacity: brandOpacity,
