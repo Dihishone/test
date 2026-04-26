@@ -7,13 +7,11 @@ import { FoundersPlaceholder } from "../components/FoundersPlaceholder";
 
 const FOUNDER_PHOTO = "gusshaus/founders.jpg";
 
-// ⚑ Swap to real photo: replace false with true and drop founders.jpg in public/gusshaus/
-const HAS_FOUNDER_PHOTO = false;
+// Set to true once founders.jpg is saved to public/gusshaus/
+const HAS_FOUNDER_PHOTO = true;
 
 const FoundersImage: React.FC = () => {
-  if (!HAS_FOUNDER_PHOTO) {
-    return <FoundersPlaceholder />;
-  }
+  if (!HAS_FOUNDER_PHOTO) return <FoundersPlaceholder />;
   return (
     <Img
       src={staticFile(FOUNDER_PHOTO)}
@@ -25,120 +23,71 @@ const FoundersImage: React.FC = () => {
 export const B5Solution: React.FC = () => {
   const frame = useCurrentFrame();
 
-  const bgOpacity = interpolate(frame, [0, 8], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const bgOpacity = interpolate(frame, [0, 8], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
 
-  const nameStart = Math.round(1.2 * FPS);
-  const nameOpacity = interpolate(frame, [nameStart, nameStart + FADE_DURATION * 2], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: Easing.out(Easing.ease),
-  });
-  const nameY = interpolate(frame, [nameStart, nameStart + FADE_DURATION * 2], [10, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: Easing.out(Easing.ease),
-  });
+  const nameStart = Math.round(1.4 * FPS);
+  const nameOpacity = interpolate(frame, [nameStart, nameStart + FADE_DURATION * 2], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.ease) });
+  const nameY = interpolate(frame, [nameStart, nameStart + FADE_DURATION * 2], [10, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.ease) });
 
-  const brandStart = Math.round(5.0 * FPS);
-  const brandOpacity = interpolate(frame, [brandStart, brandStart + Math.round(0.5 * FPS) * 2], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: Easing.out(Easing.ease),
-  });
-  const brandScale = interpolate(frame, [brandStart, brandStart + Math.round(0.5 * FPS) * 2], [0.94, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: Easing.out(Easing.ease),
-  });
+  const brandStart = Math.round(4.5 * FPS);
+  const brandOpacity = interpolate(frame, [brandStart, brandStart + Math.round(0.6 * FPS) * 2], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.ease) });
+  const brandScale = interpolate(frame, [brandStart, brandStart + Math.round(0.6 * FPS) * 2], [0.93, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.ease) });
 
-  const bodyOpacity = interpolate(frame, [Math.round(2.5 * FPS), Math.round(3.2 * FPS)], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-    easing: Easing.out(Easing.ease),
-  });
+  const bodyStart = Math.round(2.5 * FPS);
+  const bodyOpacity = interpolate(frame, [bodyStart, bodyStart + Math.round(0.8 * FPS)], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.ease) });
 
   return (
     <AbsoluteFill style={{ background: COLORS.BG_WARM, opacity: bgOpacity }}>
-      {/* Left: Founder photo or illustrated placeholder */}
-      <AbsoluteFill
-        style={{
-          width: "50%",
-          background: COLORS.BG_DARK,
-          overflow: "hidden",
-        }}
-      >
+      {/* Left half: founder photo */}
+      <AbsoluteFill style={{ width: "52%", background: "#2A2A28", overflow: "hidden" }}>
         <FoundersImage />
 
-        {/* Name label — Bauchbinde style */}
+        {/* Name label — Bauchbinde, bottom left */}
         <div
           style={{
             position: "absolute",
-            bottom: 80,
-            left: 48,
-            right: 48,
+            bottom: 72,
+            left: 56,
+            right: 56,
             opacity: nameOpacity,
             transform: `translateY(${nameY}px)`,
           }}
         >
-          <div
-            style={{
-              background: "rgba(42,42,40,0.82)",
-              padding: "16px 24px",
-              display: "inline-block",
-            }}
-          >
-            <div
-              style={{
-                fontFamily,
-                fontSize: 26,
-                fontWeight: 700,
-                color: COLORS.TEXT_LIGHT,
-                letterSpacing: "0.08em",
-              }}
-            >
+          <div style={{ background: "rgba(30,28,26,0.88)", padding: "18px 28px", display: "inline-block" }}>
+            <div style={{ fontFamily, fontSize: 24, fontWeight: 700, color: COLORS.TEXT_LIGHT, letterSpacing: "0.1em" }}>
               MANFRED &amp; MATTHÄUS HEIGL
             </div>
-            <div
-              style={{
-                fontFamily,
-                fontSize: 18,
-                fontWeight: 400,
-                color: COLORS.TEXT_MUTED,
-                letterSpacing: "0.04em",
-                marginTop: 4,
-              }}
-            >
-              Gründer, Gusshaus GmbH
+            <div style={{ fontFamily, fontSize: 16, fontWeight: 400, color: COLORS.TEXT_MUTED, letterSpacing: "0.05em", marginTop: 5 }}>
+              Gründer, Gusshaus GmbH · seit 2021
             </div>
           </div>
         </div>
       </AbsoluteFill>
 
-      {/* Right: Brand reveal + body copy */}
+      {/* Right half: brand + copy — vertically centered */}
       <AbsoluteFill
         style={{
-          left: "50%",
-          width: "50%",
+          left: "52%",
+          width: "48%",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          padding: "0 80px",
+          padding: "0 80px 0 72px",
         }}
       >
+        {/* "Gusshaus." Magenta reveal */}
         <div
           style={{
             opacity: brandOpacity,
             transform: `scale(${brandScale})`,
             transformOrigin: "left center",
             fontFamily,
-            fontSize: 88,
+            fontSize: 80,
             fontWeight: 700,
             color: COLORS.ACCENT_MAGENTA,
             letterSpacing: "0.02em",
-            marginBottom: 32,
+            marginBottom: 36,
+            lineHeight: 1,
           }}
         >
           Gusshaus.
@@ -148,22 +97,18 @@ export const B5Solution: React.FC = () => {
           style={{
             opacity: bodyOpacity,
             fontFamily,
-            fontSize: 28,
+            fontSize: 27,
             fontWeight: 400,
             color: COLORS.TEXT_DARK,
-            lineHeight: 1.6,
+            lineHeight: 1.65,
             letterSpacing: "0.01em",
           }}
         >
-          Gegründet 2021.
-          <br />
-          Ein Planungs- und Baumanagement-Büro,
-          <br />
-          das von der ersten Skizze bis zur
-          <br />
-          Schlüsselübergabe vollständig plant,
-          <br />
-          steuert und umsetzt — und dabei bleibt.
+          Gegründet 2021. Ein Planungs- und
+          <br />Baumanagement-Büro, das von der
+          <br />ersten Skizze bis zur Schlüsselübergabe
+          <br />vollständig plant, steuert und umsetzt —
+          <br />und dabei bleibt.
         </div>
       </AbsoluteFill>
     </AbsoluteFill>
